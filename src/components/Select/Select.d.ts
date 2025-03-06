@@ -2,7 +2,7 @@ export type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
   name?: string
   label?: string
   hint?: string
-  error?: string
+  error?: any
   options?: string[]
   placeholder?: string
   selected?: string

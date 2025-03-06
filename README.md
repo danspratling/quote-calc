@@ -11,6 +11,8 @@ npm install
 npm run dev
 ```
 
+You should see a SPA load with the calculator visible. From there, enter your details and press 'Get a quote' to see your results.
+
 ### Testing
 
 ```bash
