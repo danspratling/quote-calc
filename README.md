@@ -4,6 +4,8 @@ A calculator that works out the insurance premium for customers
 
 This application is built using Vite and React. To get started with a local environment, clone the repository and run the following commands:
 
+You can also [view the deployed version](https://quote-calc-e8ogtvvel-skyward.vercel.app/)
+
 ### Development
 
 ```bash

@@ -41,8 +41,9 @@ function App() {
 
   return (
     <main className='flex flex-col items-center justify-center min-h-screen py-2'>
-      <div className='container mx-auto space-y-8 px-4'>
+      <div className='container max-w-3xl mx-auto space-y-8 px-4'>
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
+          <h1 className='text-4xl font-semibold text-center mb-10'>Calculate your life insurance coverage</h1>
           <div className='flex gap-8'>
             <div className='flex-1'>
               <label className='mb-2 block text-sm font-semibold text-gray-600' htmlFor='coverage'>
