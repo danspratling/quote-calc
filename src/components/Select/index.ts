@@ -1,3 +1,3 @@
-export { Select, SelectWrapper, SelectOption } from "./Select"
+export { Select, SelectOption } from './Select'
 
-export type { SelectProps, SelectWrapperProps, SelectOptionProps } from "./Select.d"
+export type { SelectProps, SelectOptionProps } from './Select.d'

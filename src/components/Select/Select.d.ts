@@ -11,13 +11,6 @@ export type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
   onChange?: (e: any) => void
 }
 
-export type SelectWrapperProps = {
-  label: string
-  htmlFor?: string
-  error?: any
-  hint?: string
-} & React.HTMLAttributes<HTMLDivElement>
-
 export type SelectOptionProps = {
   value: string
   children: React.ReactNode
