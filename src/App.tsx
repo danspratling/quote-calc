@@ -1,10 +1,10 @@
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import { Button } from './components/Button'
-import { Checkbox } from './components/Checkbox'
 import { Slider } from './components/Slider'
 import { Select } from './components/Select'
-import './App.css'
-import Card from './components/Card'
+import { Card } from './components/Card'
+import { cn } from './utils'
+import { calculateAge, calculatePremium } from './utils/calculatePremium'
 
 type Inputs = {
   coverage: number
@@ -12,7 +12,7 @@ type Inputs = {
   day: string
   month: string
   year: string
-  smoker?: string
+  smoker?: boolean
 }
 
 function App() {
@@ -22,15 +22,15 @@ function App() {
     watch,
     control,
     formState: { errors },
-  } = useForm<Inputs>()
-  const onSubmit: SubmitHandler<Inputs> = data =>
+  } = useForm<Inputs>({ defaultValues: { coverage: 300000, term: 10 } })
+  const onSubmit: SubmitHandler<Inputs> = data => {
+    const age = calculateAge({ year: parseInt(data.year), month: data.month, day: parseInt(data.day) })
+    const premium = calculatePremium({ age, coverage: data.coverage, smoker: data.smoker, term: data.term })
     console.log({
-      ...data,
-      dateOfBirth: new Date(`${data.month} ${data.day}, ${data.year} 00:00:00`),
-      age:
-        new Date(Date.now() - new Date(`${data.month} ${data.day}, ${data.year} 00:00:00`).getTime()).getFullYear() -
-        1970,
+      premium,
+      data,
     })
+  }
 
   const coverage = new Intl.NumberFormat('en-GB', {
     style: 'currency',
@@ -38,7 +38,7 @@ function App() {
     maximumFractionDigits: 0,
   }).format(watch('coverage'))
   const term = watch('term')
-  // const dateOfBirth = new Date(watch('year'), watch('month'), watch('day'))
+  const month = watch('month')
 
   return (
     <main className='flex flex-col items-center justify-center min-h-screen py-2'>
@@ -85,18 +85,30 @@ function App() {
             <Controller
               control={control}
               name='day'
+              rules={{ required: true }}
               render={({ field }) => (
                 <Select
                   {...field}
                   placeholder='Day'
                   className='w-16'
-                  options={Array.from({ length: 31 }, (_, i) => i + 1).map(value => value.toString())}
+                  options={Array.from(
+                    {
+                      length:
+                        month && month === 'february'
+                          ? 29
+                          : ['september', 'april', 'june', 'november'].includes(month)
+                          ? 30
+                          : 31,
+                    },
+                    (_, i) => i + 1
+                  ).map(value => value.toString())}
                 />
               )}
             />
             <Controller
               control={control}
               name='month'
+              rules={{ required: true }}
               render={({ field }) => (
                 <Select
                   {...field}
@@ -122,6 +134,7 @@ function App() {
             <Controller
               control={control}
               name='year'
+              rules={{ required: true }}
               render={({ field }) => (
                 <Select
                   {...field}
@@ -134,24 +147,21 @@ function App() {
               )}
             />
           </div>
-
-          <div>
-            <label className='mb-2 block text-sm font-semibold text-gray-600' htmlFor='smoker'>
-              Are you a smoker?
-            </label>
-            <input type='checkbox' {...register('smoker')} />
-          </div>
-
-          {/* {(error) && (
-            <p className={cn('-mt-3 mb-2 text-sm text-gray-600 dark:text-gray-200', error && 'text-red-500')}>
-              {error}
-            </p>
-          )} */}
-
-          <Button type='submit' className='mt-5'>
-            Get a quote
-          </Button>
+          {errors && (errors.day || errors.month || errors.year) && (
+            <p className={cn('-mt-3 mb-2 text-sm text-red-500')}>Please select your date of birth</p>
+          )}
         </div>
+
+        <div>
+          <label className='mb-2 block text-sm font-semibold text-gray-600' htmlFor='smoker'>
+            Are you a smoker?
+          </label>
+          <input type='checkbox' {...register('smoker')} />
+        </div>
+
+        <Button type='submit' className='mt-5'>
+          Get a quote
+        </Button>
       </form>
     </main>
   )

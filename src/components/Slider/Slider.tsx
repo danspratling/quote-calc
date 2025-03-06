@@ -42,7 +42,7 @@ export const Slider = ({ id, min, max, step = 1, hideListMiddleLabels, className
           ) : (
             <>
               {[...Array((max - min) / step + 1)].map((_, i) => (
-                <option value={i * step} label={(i * step + step).toString()}></option>
+                <option key={i * step} value={i * step} label={(i * step + step).toString()}></option>
               ))}
             </>
           )}

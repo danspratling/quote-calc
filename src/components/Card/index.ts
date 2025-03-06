@@ -1,4 +1,1 @@
-import { Card, type CardProps } from "./Card"
-
-export { CardProps }
-export default Card
+export { Card, type CardProps } from './Card'

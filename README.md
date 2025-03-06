@@ -4,9 +4,23 @@ A calculator that works out the insurance premium for customers
 
 This application is built using Vite and React. To get started with a local environment, clone the repository and run the following commands:
 
+### Development
+
 ```bash
 npm install
 npm run dev
+```
+
+### Testing
+
+```bash
+npm run test
+```
+
+### Visual Composition
+
+```bash
+npm run storybook
 ```
 
 ## Logic
